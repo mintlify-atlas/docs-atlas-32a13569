@@ -1,0 +1,397 @@
+---
+title: 'Data layer'
+description: 'How site-content.ts works as the single source of truth for all text content in the project.'
+---
+
+`data/site-content.ts` is the single source of truth for every string, label, and structured text object rendered on the site. Components import directly from this file — no API calls, no CMS, no environment variables. To change any visible text, edit the relevant export here.
+
+<Note>
+  You do not need to restart the Next.js dev server after editing `site-content.ts`. Hot module replacement picks up the change automatically.
+</Note>
+
+## Exported constants
+
+### `projectAuthors`
+
+A flat string array listing the four team members credited on the site.
+
+```ts
+export const projectAuthors = [
+  "Jean Segura",
+  "Brandon Serna",
+  "Danilo Nikolic",
+  "Tomas Vega"
+];
+```
+
+<ParamField path="projectAuthors" type="string[]">
+  Ordered list of author names displayed in the project credit section.
+</ParamField>
+
+---
+
+### `navigationItems`
+
+Six anchor links that populate the top navigation bar.
+
+```ts
+export const navigationItems = [
+  { label: "Overview",   href: "#overview"   },
+  { label: "Types",      href: "#types"       },
+  { label: "Root Causes",href: "#causes"      },
+  { label: "Awareness",  href: "#awareness"   },
+  { label: "Prevention", href: "#prevention"  },
+  { label: "Resources",  href: "#resources"   }
+];
+```
+
+<ParamField path="navigationItems[].label" type="string" required>
+  Visible link text in the nav bar.
+</ParamField>
+
+<ParamField path="navigationItems[].href" type="string" required>
+  In-page anchor target (e.g. `#overview`).
+</ParamField>
+
+---
+
+### `projectFacts`
+
+Four label/value pairs that describe course and project metadata.
+
+```ts
+export const projectFacts = [
+  { label: "Course Focus",  value: "Criminal Justice / Marketing" },
+  { label: "Project Year",  value: "2026"                         },
+  { label: "Main Goal",     value: "Awareness and prevention"     },
+  { label: "Audience",      value: "Students and campus viewers"  }
+];
+```
+
+<ParamField path="projectFacts[].label" type="string" required>
+  Metadata category name (e.g. `"Course Focus"`).
+</ParamField>
+
+<ParamField path="projectFacts[].value" type="string" required>
+  Metadata value displayed alongside the label.
+</ParamField>
+
+---
+
+### `heroHighlights`
+
+Three feature cards rendered in the hero section, each with a title and supporting sentence.
+
+```ts
+export const heroHighlights = [
+  {
+    title: "Clear Definition",
+    text: "The topic is explained in neutral academic language that supports class discussion."
+  },
+  {
+    title: "Balanced Comparison",
+    text: "Domestic and foreign terrorism are explained clearly without sensational language."
+  },
+  {
+    title: "Prevention Focus",
+    text: "The final sections highlight awareness, education, and community support."
+  }
+];
+```
+
+<ParamField path="heroHighlights[].title" type="string" required>
+  Short card heading (two or three words).
+</ParamField>
+
+<ParamField path="heroHighlights[].text" type="string" required>
+  One-sentence description displayed below the heading.
+</ParamField>
+
+---
+
+### `studyPrinciples`
+
+Three lens cards that describe the editorial principles guiding the site content.
+
+```ts
+export const studyPrinciples = [
+  {
+    title: "Neutral Explanation",
+    text: "The website uses factual language to support academic learning and respectful classroom discussion."
+  },
+  {
+    title: "Respect for Communities",
+    text: "The content avoids stereotypes and keeps the focus on harmful behavior, not identity."
+  },
+  {
+    title: "Prevention First",
+    text: "Each section returns to awareness, education, and support as the strongest community response."
+  }
+];
+```
+
+Shape is identical to `heroHighlights`: `{ title: string; text: string }`.
+
+---
+
+### `terrorismTypes`
+
+Two entries — domestic and foreign terrorism — each with a title, descriptive paragraph, and a short summary label.
+
+```ts
+export const terrorismTypes = [
+  {
+    title: "Domestic Terrorism",
+    text: "Domestic terrorism involves violent acts planned or carried out mainly within one country...",
+    label: "Mainly within one country"
+  },
+  {
+    title: "Foreign Terrorism",
+    text: "Foreign terrorism refers to violent acts linked to groups or networks that operate across national borders...",
+    label: "Cross-border or outside-linked"
+  }
+];
+```
+
+<ParamField path="terrorismTypes[].title" type="string" required>
+  Card heading identifying the terrorism type.
+</ParamField>
+
+<ParamField path="terrorismTypes[].text" type="string" required>
+  One-paragraph description of the type.
+</ParamField>
+
+<ParamField path="terrorismTypes[].label" type="string" required>
+  Short badge or tag text summarizing the key distinction.
+</ParamField>
+
+---
+
+### `typeComparisons`
+
+Three comparison items contrasting domestic and foreign terrorism across planning context, network pattern, and shared risk.
+
+```ts
+export const typeComparisons = [
+  {
+    title: "Planning Context",
+    text: "Domestic cases are usually tied to issues inside one country, while foreign cases often involve outside groups or international conflict."
+  },
+  {
+    title: "Network Pattern",
+    text: "Domestic networks may stay local or national. Foreign networks may connect people, money, or propaganda across borders."
+  },
+  {
+    title: "Shared Risk",
+    text: "Both forms use fear and violence to influence others, so both require awareness, prevention, and responsible reporting."
+  }
+];
+```
+
+Shape: `{ title: string; text: string }`.
+
+---
+
+### `rootCauses`
+
+Six cards covering the main contributing factors to terrorism.
+
+```ts
+export const rootCauses = [
+  { title: "Ideology",           text: "Strong belief systems can shape how a person understands conflict, identity, and the use of violence." },
+  { title: "Religion",           text: "Extremist groups may misuse religious language to justify violence and recruit followers." },
+  { title: "Politics",           text: "Political anger, instability, or extreme movements can create conditions that support radical views." },
+  { title: "Financial Struggles",text: "Poverty, unemployment, and limited opportunity can increase stress, frustration, and social isolation." },
+  { title: "Power and Control",  text: "Some groups use fear to gain influence, attract attention, or control others." },
+  { title: "Social Environment", text: "Family stress, social exclusion, online influence, and community conflict can shape dangerous pathways over time." }
+];
+```
+
+Shape: `{ title: string; text: string }`.
+
+---
+
+### `radicalizationPath`
+
+Four sequential stages that describe how radicalization can develop and be interrupted.
+
+```ts
+export const radicalizationPath = [
+  {
+    title: "Grievance or frustration",
+    text: "A person may feel angry, isolated, treated unfairly, or disconnected from others."
+  },
+  {
+    title: "Repeated harmful messaging",
+    text: "Extremist media, online propaganda, or group pressure can slowly reinforce extreme ideas."
+  },
+  {
+    title: "Growing isolation",
+    text: "When trusted support becomes weaker, extreme identity or us-versus-them thinking may become stronger."
+  },
+  {
+    title: "Early intervention matters",
+    text: "Education, mentoring, counseling, and community support can interrupt the path before harm occurs."
+  }
+];
+```
+
+Shape: `{ title: string; text: string }`. The array is ordered — stage 1 through stage 4.
+
+---
+
+### `awarenessPoints`
+
+Three key awareness messages for the Awareness section.
+
+```ts
+export const awarenessPoints = [
+  {
+    title: "Radicalization Can Be Gradual",
+    text: "Radicalization often develops over time through repeated exposure, pressure, and isolation rather than in a single moment."
+  },
+  {
+    title: "Awareness Encourages Early Support",
+    text: "When students and communities understand warning signs, they are better prepared to encourage help before a crisis grows."
+  },
+  {
+    title: "Education Reduces Fear",
+    text: "Accurate information helps people respond with reason, empathy, and responsibility instead of fear, panic, or stereotypes."
+  }
+];
+```
+
+Shape: `{ title: string; text: string }`.
+
+---
+
+### `preventionIdeas`
+
+Four prevention strategies displayed in the Prevention section.
+
+```ts
+export const preventionIdeas = [
+  {
+    title: "Promote Media Literacy",
+    text: "Teach students how to question false information, online propaganda, and manipulative messages."
+  },
+  {
+    title: "Strengthen Community Support",
+    text: "Safe schools, mentoring, and counseling can reduce isolation and build trust."
+  },
+  {
+    title: "Encourage Reporting",
+    text: "People should know how to report serious concerns through trusted school, campus, or public safety channels."
+  },
+  {
+    title: "Build Inclusive Spaces",
+    text: "Respectful classrooms and community programs can reduce alienation and strengthen belonging."
+  }
+];
+```
+
+Shape: `{ title: string; text: string }`.
+
+---
+
+### `communityActions`
+
+Four concrete actions for educators, students, and community members.
+
+```ts
+export const communityActions = [
+  {
+    title: "Use clear classroom discussion",
+    text: "Teachers and student leaders can use careful language, context, and fact-based examples."
+  },
+  {
+    title: "Support students early",
+    text: "Counseling, mentoring, and peer support can help when stress, isolation, or grievance begins to grow."
+  },
+  {
+    title: "Partner with families and local groups",
+    text: "Trust grows when schools, families, and community organizations share information and support."
+  },
+  {
+    title: "Know where to report urgent concerns",
+    text: "Serious threats should be reported through campus safety, school leadership, or public safety systems."
+  }
+];
+```
+
+Shape: `{ title: string; text: string }`.
+
+---
+
+### `featuredResource`
+
+A single external resource object linked in the Resources section.
+
+```ts
+export const featuredResource = {
+  title: "Updated Resources on Terrorism",
+  source: "Global Investigative Journalism Network",
+  href: "https://gijn.org/resource/updated-resources-on-terrorism/",
+  description:
+    "This external resource guide offers additional reading that students can use for class research, discussion, and presentation preparation."
+};
+```
+
+<ParamField path="featuredResource.title" type="string" required>
+  Display title of the external resource.
+</ParamField>
+
+<ParamField path="featuredResource.source" type="string" required>
+  Name of the publishing organization.
+</ParamField>
+
+<ParamField path="featuredResource.href" type="string" required>
+  Full URL to the external resource.
+</ParamField>
+
+<ParamField path="featuredResource.description" type="string" required>
+  One-sentence description shown below the resource title.
+</ParamField>
+
+---
+
+### `resourceSupportTopics`
+
+A flat string array of three use-case labels shown alongside the featured resource.
+
+```ts
+export const resourceSupportTopics = [
+  "Background reading",
+  "Research support",
+  "Presentation preparation"
+];
+```
+
+<ParamField path="resourceSupportTopics" type="string[]">
+  Short labels describing how students can use the linked resource.
+</ParamField>
+
+---
+
+## Updating content
+
+All visible text on the site is controlled by this file. To make a change:
+
+<Steps>
+  <Step title="Open the file">
+    Open `data/site-content.ts` in your editor.
+  </Step>
+  <Step title="Find the relevant export">
+    Locate the exported constant that corresponds to the section you want to change. Each export maps directly to a named page section.
+  </Step>
+  <Step title="Edit the value">
+    Update the string or object field. Do not change the property names — components depend on the exact shape.
+  </Step>
+  <Step title="Save and verify">
+    Save the file. The Next.js dev server reloads automatically. Confirm the change in the browser.
+  </Step>
+</Steps>
+
+<Warning>
+  Do not rename exported constants or remove object properties. Components reference these by name and will break silently if a field is missing.
+</Warning>

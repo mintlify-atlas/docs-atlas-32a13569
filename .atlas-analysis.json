@@ -1,0 +1,97 @@
+{
+  "projectType": "frontend",
+  "projectName": "Understanding Terrorism: Root Causes and Prevention",
+  "projectDescription": "An educational Next.js website created for a college Criminal Justice project, covering terrorism definitions, types, root causes, awareness, and community prevention strategies.",
+  "theme": "willow",
+  "primaryColor": "#16324f",
+  "lightColor": "#eff3f7",
+  "darkColor": "#0f2236",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "project-brief"
+            ]
+          },
+          {
+            "group": "Content Sections",
+            "pages": [
+              "content/what-is-terrorism",
+              "content/types-of-terrorism",
+              "content/root-causes",
+              "content/radicalization",
+              "content/awareness",
+              "content/prevention"
+            ]
+          },
+          {
+            "group": "Resources & References",
+            "pages": [
+              "resources/external-links",
+              "resources/research-guide"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Developer Guide",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "dev/quickstart",
+              "dev/project-structure"
+            ]
+          },
+          {
+            "group": "Components",
+            "pages": [
+              "dev/components/overview",
+              "dev/components/info-card",
+              "dev/components/section-heading",
+              "dev/components/radicalization-path",
+              "dev/components/resources-panel"
+            ]
+          },
+          {
+            "group": "Data & Customization",
+            "pages": [
+              "dev/data-layer",
+              "dev/theming"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Neutral academic definition of terrorism with factual language",
+    "Side-by-side comparison of domestic and foreign terrorism",
+    "Six root causes explorer with icon cards",
+    "Radicalization pathway visualization with intervention guidance",
+    "Awareness section on gradual radicalization and campus context",
+    "Prevention strategies and community action checklist",
+    "Curated external resources panel for further research",
+    "Fully accessible design with skip-to-content and ARIA support",
+    "Responsive layout using Tailwind CSS utility classes",
+    "Animated hero section with branded color palette"
+  ],
+  "publicApiSurface": [
+    "Hero component — hero.tsx",
+    "ContentSection layout wrapper — content-section.tsx",
+    "SectionHeading — section-heading.tsx",
+    "InfoCard — info-card.tsx",
+    "RadicalizationPath — radicalization-path.tsx",
+    "ResourcesPanel — resources-panel.tsx",
+    "ProjectBrief — project-brief.tsx",
+    "SiteHeader — site-header.tsx",
+    "SiteFooter — site-footer.tsx",
+    "Icons (BookIcon, ShieldIcon, NetworkIcon, PeopleIcon, WarningIcon, CompassIcon, CheckIcon) — icons.tsx",
+    "Data exports: studyPrinciples, terrorismTypes, typeComparisons, rootCauses, radicalizationPath, awarenessPoints, preventionIdeas, communityActions, featuredResource — site-content.ts"
+  ]
+}

@@ -1,0 +1,262 @@
+---
+title: 'Theming'
+description: 'Brand color tokens, typography variables, animations, and CSS utility classes used across the site.'
+---
+
+The site's visual identity is defined in two files:
+
+- **`tailwind.config.ts`** — brand color tokens, box shadow, and keyframe animations
+- **`app/globals.css`** — CSS custom properties for fonts and reusable utility class definitions
+
+## Brand colors
+
+All colors are registered under the `brand` namespace in `tailwind.config.ts` and are available as Tailwind utility classes (e.g. `bg-brand-navy`, `text-brand-red`).
+
+<Note>
+  All brand colors are used via Tailwind utility classes like `bg-brand-navy` and `text-brand-red` throughout the components.
+</Note>
+
+| Token | Value | Usage |
+|---|---|---|
+| `brand.navy` | `#16324f` | Primary backgrounds, buttons, nav text |
+| `brand.ink` | `#0f2236` | Deepest background tone, `<body>` text color |
+| `brand.mist` | `#eff3f7` | Light section backgrounds, gradient stop |
+| `brand.steel` | `#6b7785` | Body copy, secondary text |
+| `brand.red` | `#9f4b4b` | Eyebrow labels, hover accents, focus rings |
+| `brand.sand` | `#f8f6f3` | Page background base, card surfaces |
+
+### Changing brand colors
+
+Open `tailwind.config.ts` and update any value inside `theme.extend.colors.brand`:
+
+```ts tailwind.config.ts
+const config: Config = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          navy:  "#16324f",
+          ink:   "#0f2236",
+          mist:  "#eff3f7",
+          steel: "#6b7785",
+          red:   "#9f4b4b",
+          sand:  "#f8f6f3"
+        }
+      }
+    }
+  }
+};
+```
+
+After saving, Tailwind rebuilds automatically in development. Every component that uses a `brand-*` class reflects the new value immediately.
+
+## Box shadow
+
+A single named shadow is defined for cards and section containers.
+
+| Token | Value |
+|---|---|
+| `soft` | `0 16px 40px rgba(15, 34, 54, 0.08)` |
+
+Use it in components with `shadow-soft`. The color is derived from `brand.ink` at 8% opacity, so it stays harmonious if you darken or lighten the ink token.
+
+## Animations
+
+Two custom keyframe animations are registered:
+
+<AccordionGroup>
+  <Accordion title="rise — entrance animation">
+
+    Elements animate in from slightly below their final position.
+
+    ```ts
+    keyframes: {
+      rise: {
+        "0%":   { opacity: "0", transform: "translateY(18px)" },
+        "100%": { opacity: "1", transform: "translateY(0)"     }
+      }
+    },
+    animation: {
+      rise: "rise 0.8s ease-out forwards"
+    }
+    ```
+
+    Apply with `animate-rise` on any element. The animation runs once and holds the final frame (`forwards`).
+
+  </Accordion>
+  <Accordion title="float — continuous floating effect">
+
+    Elements oscillate vertically in a loop. Used for decorative elements in the hero.
+
+    ```ts
+    keyframes: {
+      float: {
+        "0%, 100%": { transform: "translateY(0)"   },
+        "50%":      { transform: "translateY(-6px)" }
+      }
+    },
+    animation: {
+      float: "float 8s ease-in-out infinite"
+    }
+    ```
+
+    Apply with `animate-float`. The 8-second duration keeps the motion subtle and non-distracting.
+
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Both animations are suppressed when the user has `prefers-reduced-motion: reduce` enabled. The `@media (prefers-reduced-motion: reduce)` block in `globals.css` sets `animation-duration: 0.01ms` globally.
+</Tip>
+
+## Typography
+
+Font stacks are set as CSS custom properties in the `:root` block of `app/globals.css` and applied to elements via `font-family: var(--font-heading)` and `font-family: var(--font-body)`.
+
+```css globals.css
+:root {
+  --font-heading: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-body: "Avenir Next", "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+}
+```
+
+| Variable | Stack | Applied to |
+|---|---|---|
+| `--font-heading` | Iowan Old Style → Palatino Linotype → Book Antiqua → Georgia → serif | `h1`, `h2`, `h3`, `h4` |
+| `--font-body` | Avenir Next → Trebuchet MS → Gill Sans → Segoe UI → sans-serif | `body` and all general text |
+
+### Changing fonts
+
+Update the CSS variable values in `app/globals.css`:
+
+```css globals.css
+:root {
+  --font-heading: "Your Heading Font", fallback, serif;
+  --font-body:    "Your Body Font",    fallback, sans-serif;
+}
+```
+
+If you use a web font (e.g. Google Fonts), add the `<link>` or `@import` to `app/layout.tsx` or at the top of `globals.css` before the variable declaration.
+
+## CSS utility classes
+
+These classes are defined in `app/globals.css` inside `@layer components` and can be applied to any element with `className`.
+
+```css globals.css
+@layer components {
+  .section-shell {
+    @apply relative overflow-hidden rounded-[2rem] border border-white/60
+           bg-white/80 shadow-soft backdrop-blur;
+  }
+
+  .eyebrow {
+    @apply inline-flex rounded-full border border-brand-red/20 bg-brand-red/10
+           px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-brand-red;
+  }
+
+  .section-copy {
+    @apply max-w-2xl text-base leading-7 text-brand-steel sm:text-lg sm:leading-8;
+  }
+
+  .button-primary {
+    @apply bg-brand-navy text-white transition hover:-translate-y-0.5 hover:bg-brand-ink
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4
+           focus-visible:outline-brand-red;
+  }
+
+  .button-secondary {
+    @apply border border-brand-navy/20 bg-white/90 text-brand-navy transition
+           hover:-translate-y-0.5 hover:border-brand-red/30 hover:text-brand-red
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4
+           focus-visible:outline-brand-red;
+  }
+
+  .nav-link {
+    @apply text-sm font-semibold text-brand-ink transition hover:text-brand-red
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4
+           focus-visible:outline-brand-red;
+  }
+
+  .card-hover {
+    @apply transition duration-300 hover:-translate-y-1
+           hover:border-brand-navy/20 hover:shadow-soft;
+  }
+}
+```
+
+<AccordionGroup>
+  <Accordion title=".section-shell">
+    Frosted-glass panel used to wrap every major page section. Provides rounded corners (`2rem`), a translucent white background, the `soft` box shadow, and `backdrop-blur`.
+
+    Also injects two pseudo-elements: a top gradient border line (`::before`) and a soft radial red glow in the top-right corner (`::after`).
+  </Accordion>
+  <Accordion title=".eyebrow">
+    Pill-shaped label rendered above section headings (e.g. "Types of Terrorism"). Uses `brand-red` at reduced opacity for background and border, and `tracking-[0.24em]` for wide letter-spacing.
+  </Accordion>
+  <Accordion title=".section-copy">
+    Constrains body copy to `max-w-2xl` and applies `brand-steel` color with comfortable line height. Responsive: `text-base / leading-7` on mobile, `text-lg / leading-8` on `sm` and up.
+  </Accordion>
+  <Accordion title=".button-primary">
+    Solid `brand-navy` button with a white label. Lifts `-0.5` on hover and darkens to `brand-ink`. Keyboard focus shows a `brand-red` outline.
+  </Accordion>
+  <Accordion title=".button-secondary">
+    Ghost-style button with a translucent white background and `brand-navy` border. On hover, border and text shift to `brand-red`. Shares the same focus ring style as `.button-primary`.
+  </Accordion>
+  <Accordion title=".nav-link">
+    Small semibold navigation anchor. Default color is `brand-ink`; hover shifts to `brand-red`. Focus ring uses the same `brand-red` outline pattern as the buttons.
+  </Accordion>
+  <Accordion title=".card-hover">
+    Reusable interaction layer for cards. Adds a subtle upward lift (`-translate-y-1`) and the `soft` shadow on hover, with a `duration-300` transition.
+  </Accordion>
+</AccordionGroup>
+
+## Full Tailwind config
+
+```ts tailwind.config.ts
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./data/**/*.{js,ts,jsx,tsx,mdx}"
+  ],
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          navy:  "#16324f",
+          ink:   "#0f2236",
+          mist:  "#eff3f7",
+          steel: "#6b7785",
+          red:   "#9f4b4b",
+          sand:  "#f8f6f3"
+        }
+      },
+      boxShadow: {
+        soft: "0 16px 40px rgba(15, 34, 54, 0.08)"
+      },
+      keyframes: {
+        rise: {
+          "0%":   { opacity: "0", transform: "translateY(18px)" },
+          "100%": { opacity: "1", transform: "translateY(0)"     }
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)"   },
+          "50%":      { transform: "translateY(-6px)" }
+        }
+      },
+      animation: {
+        rise:  "rise 0.8s ease-out forwards",
+        float: "float 8s ease-in-out infinite"
+      },
+      backgroundImage: {
+        grid: "linear-gradient(rgba(22, 50, 79, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(22, 50, 79, 0.08) 1px, transparent 1px)"
+      }
+    }
+  },
+  plugins: []
+};
+
+export default config;
+```

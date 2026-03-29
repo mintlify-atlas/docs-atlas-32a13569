@@ -1,0 +1,62 @@
+---
+title: 'ResourcesPanel'
+description: 'Full-width section combining a topic tag list with a featured external resource card.'
+---
+
+`ResourcesPanel` renders a self-contained `<section id="resources">` with two columns: a left column with an introduction and topic tags, and a right column with a featured resource card that links to an external URL. It accepts no props — all content comes from `featuredResource` and `resourceSupportTopics` in `@/data/site-content`.
+
+## Import
+
+```tsx
+import { ResourcesPanel } from "@/components/resources-panel";
+```
+
+## Usage
+
+Place `ResourcesPanel` directly inside the max-width wrapper in `app/page.tsx`, after all `ContentSection` elements. Because it renders its own `<section>` with `id="resources"`, do not nest it inside a `ContentSection`:
+
+```tsx app/page.tsx
+<div
+  id="main-content"
+  className="mx-auto max-w-7xl space-y-12 px-4 pb-16 sm:px-6 lg:space-y-14 lg:px-8 lg:pb-20"
+>
+  <Hero />
+  {/* ContentSection blocks… */}
+  <ResourcesPanel />
+</div>
+```
+
+## Data dependencies
+
+`ResourcesPanel` imports two exports from `@/data/site-content`.
+
+### `featuredResource`
+
+A single object describing the highlighted external resource:
+
+```ts data/site-content.ts
+type FeaturedResource = {
+  title: string;       // Resource title, rendered as <h4>
+  source: string;      // Publisher or source name, rendered as an uppercase eyebrow label
+  href: string;        // External URL — opened in a new tab via the "Open Resource Guide" button
+  description: string; // Short summary rendered below the title
+};
+```
+
+The `href` value is also displayed as plain text below the button so users can see the destination URL at a glance.
+
+### `resourceSupportTopics`
+
+An array of strings, each rendered as a pill-shaped tag in the left column:
+
+```ts data/site-content.ts
+const resourceSupportTopics: string[] = [
+  "Background reading",
+  "Research support",
+  "Presentation preparation"
+];
+```
+
+<Note>
+  To update the featured resource or the topic tags, edit the corresponding values in `data/site-content.ts`. `ResourcesPanel` will reflect the changes automatically.
+</Note>

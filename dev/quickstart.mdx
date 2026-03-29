@@ -1,0 +1,91 @@
+---
+title: "Quickstart"
+description: "Clone, install, and run the Understanding Terrorism website locally in a few minutes."
+---
+
+<Note>
+  This project uses Next.js 14 with the App Router and TypeScript.
+</Note>
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- **Node.js 18+** — required by Next.js 14
+- **pnpm** — recommended package manager (a `pnpm-lock.yaml` lockfile is committed)
+- **Git** — to clone the repository
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the project from GitHub:
+
+    ```bash
+    git clone https://github.com/iamjeansegura-ux/terrorism-website.git
+    ```
+
+    Then enter the project directory:
+
+    ```bash
+    cd terrorism-website
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    Install all dependencies using your preferred package manager:
+
+    <CodeGroup>
+
+    ```bash pnpm
+    pnpm install
+    ```
+
+    ```bash npm
+    npm install
+    ```
+
+    ```bash yarn
+    yarn install
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Start the development server">
+    Run the local development server:
+
+    <CodeGroup>
+
+    ```bash pnpm
+    pnpm dev
+    ```
+
+    ```bash npm
+    npm run dev
+    ```
+
+    ```bash yarn
+    yarn dev
+    ```
+
+    </CodeGroup>
+
+    This runs `next dev` under the hood.
+  </Step>
+
+  <Step title="Open the site">
+    Open [http://localhost:3000](http://localhost:3000) in your browser. You should see the Understanding Terrorism homepage.
+  </Step>
+</Steps>
+
+## Available scripts
+
+The following scripts are defined in `package.json`:
+
+| Script | Command | Description |
+| --- | --- | --- |
+| `dev` | `next dev` | Starts the local development server |
+| `build` | `next build` | Builds the app for production |
+| `start` | `next start` | Starts the production server after a build |
+| `lint` | `next lint` | Runs ESLint across the project |

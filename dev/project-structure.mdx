@@ -1,0 +1,122 @@
+---
+title: "Project structure"
+description: "An overview of the directory layout, key files, and architecture of the Understanding Terrorism website."
+---
+
+## Technology stack
+
+| Technology | Version |
+| --- | --- |
+| Next.js | 14.2.13 |
+| React | 18.2.0 |
+| TypeScript | 5.7.2 |
+| Tailwind CSS | 3.4.16 |
+| Package manager | pnpm |
+
+## Directory layout
+
+```
+terrorism-website/
+├── app/
+│   ├── globals.css          # Tailwind base styles + custom CSS
+│   ├── layout.tsx           # Root layout with site metadata
+│   └── page.tsx             # Main page — all sections rendered here
+├── components/
+│   ├── content-section.tsx
+│   ├── hero.tsx
+│   ├── icons.tsx
+│   ├── info-card.tsx
+│   ├── project-brief.tsx
+│   ├── radicalization-path.tsx
+│   ├── resources-panel.tsx
+│   ├── section-heading.tsx
+│   ├── site-footer.tsx
+│   └── site-header.tsx
+├── data/
+│   └── site-content.ts      # All exported data arrays
+├── next.config.mjs
+├── tailwind.config.ts
+├── tsconfig.json
+└── pnpm-lock.yaml
+```
+
+## `app/` directory
+
+The `app/` directory follows the Next.js App Router convention.
+
+<CardGroup cols={3}>
+  <Card title="layout.tsx" icon="layout-panel-top">
+    Root layout that wraps every page. Exports the site-wide `Metadata` object — including the title, description, and keywords — and renders a `<body>` with the base background and text colours applied.
+  </Card>
+  <Card title="page.tsx" icon="file-code">
+    The single entry-point page. Imports all section components and data arrays, then renders each section in order inside a `<main>` element. Anchor IDs on each `ContentSection` drive the navigation.
+  </Card>
+  <Card title="globals.css" icon="palette">
+    Imports the Tailwind CSS base, components, and utilities layers. Also contains CSS custom properties for fonts and reusable utility class definitions.
+  </Card>
+</CardGroup>
+
+## `components/` directory
+
+All UI components are in `components/`. Each file exports a single React component.
+
+| File | Purpose |
+| --- | --- |
+| `content-section.tsx` | Wrapper that provides consistent padding and an anchor `id` for each page section |
+| `hero.tsx` | Full-width hero banner rendered at the top of the page |
+| `icons.tsx` | Named SVG icon components (`BookIcon`, `CheckIcon`, `CompassIcon`, `NetworkIcon`, `PeopleIcon`, `ShieldIcon`, `WarningIcon`) |
+| `info-card.tsx` | Reusable card with a title, body text, icon, and optional accent colour |
+| `project-brief.tsx` | Short project-brief block displayed in the hero area |
+| `radicalization-path.tsx` | Visual step-by-step diagram illustrating the radicalization pathway |
+| `resources-panel.tsx` | Panel listing external reference resources |
+| `section-heading.tsx` | Eyebrow label, title, and description header used at the top of each section |
+| `site-footer.tsx` | Site-wide footer |
+| `site-header.tsx` | Site-wide header with anchor navigation links |
+
+## `data/` directory
+
+`data/site-content.ts` is the single source of truth for all page copy. It exports the following constants consumed by components and `app/page.tsx`:
+
+| Export | Type | Used by |
+| --- | --- | --- |
+| `projectAuthors` | `string[]` | `ProjectBrief`, `SiteFooter` |
+| `navigationItems` | `{ label, href }[]` | `SiteHeader` |
+| `projectFacts` | `{ label, value }[]` | `ProjectBrief` |
+| `heroHighlights` | `{ title, text }[]` | `Hero` |
+| `studyPrinciples` | `{ title, text }[]` | `app/page.tsx` (overview section) |
+| `terrorismTypes` | `{ title, text, label }[]` | `app/page.tsx` (types section) |
+| `typeComparisons` | `{ title, text }[]` | `app/page.tsx` (types section) |
+| `rootCauses` | `{ title, text }[]` | `app/page.tsx` (causes section) |
+| `radicalizationPath` | `{ title, text }[]` | `RadicalizationPath` |
+| `awarenessPoints` | `{ title, text }[]` | `app/page.tsx` (awareness section) |
+| `preventionIdeas` | `{ title, text }[]` | `app/page.tsx` (prevention section) |
+| `communityActions` | `{ title, text }[]` | `app/page.tsx` (prevention section) |
+| `featuredResource` | `{ title, source, href, description }` | `ResourcesPanel` |
+| `resourceSupportTopics` | `string[]` | `ResourcesPanel` |
+
+Editing this file updates the corresponding section on the page without touching any component or layout code.
+
+## Page architecture
+
+The site is a **single-page application** with anchor-based navigation. `app/page.tsx` renders all sections sequentially; `site-header.tsx` links to each section using hash URLs.
+
+| Anchor | Section |
+| --- | --- |
+| `#overview` | What Is Terrorism? |
+| `#types` | Types of Terrorism |
+| `#causes` | Root Causes |
+| `#awareness` | Why Awareness Matters |
+| `#prevention` | Prevention and Community Action |
+| `#resources` | Resources panel |
+
+<Tip>
+  To add a new section, create an entry in `data/site-content.ts`, add a `ContentSection` block with a unique `id` in `app/page.tsx`, and add the matching anchor link in `site-header.tsx`.
+</Tip>
+
+## Configuration files
+
+| File | Purpose |
+| --- | --- |
+| `next.config.mjs` | Next.js config — enables `reactStrictMode` |
+| `tailwind.config.ts` | Extends Tailwind with the `brand` colour palette, `soft` box shadow, and `rise` / `float` animations; scans `app/`, `components/`, and `data/` for class names |
+| `tsconfig.json` | TypeScript config — strict mode enabled, `@/*` path alias maps to the project root |

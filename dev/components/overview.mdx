@@ -1,0 +1,126 @@
+---
+title: 'Components overview'
+description: 'All UI components used in the Understanding Terrorism educational website.'
+---
+
+The site is built with ten reusable React components. Each component lives in the `components/` directory and is imported directly into `app/page.tsx`, which composes them into the full single-page layout.
+
+All components use Tailwind CSS utility classes and a shared set of brand color tokens (`brand-navy`, `brand-red`, `brand-steel`, `brand-mist`, `brand-sand`) defined in the project's Tailwind config.
+
+## Component index
+
+<CardGroup cols={2}>
+  <Card title="Hero" icon="layout-panel-top">
+    Full-width landing section with the site title, project introduction callout, CTA links, highlight cards, and an embedded `ProjectBrief` sidebar.
+  </Card>
+  <Card title="ContentSection" icon="square">
+    Generic layout shell that wraps each page section in a styled `<section>` element with consistent padding, scroll margin, and an entrance animation.
+  </Card>
+  <Card title="InfoCard" icon="credit-card" href="/dev/components/info-card">
+    Titled content card with optional eyebrow label, icon, and `navy` or `red` accent theme. Used across causes, types, and prevention sections.
+  </Card>
+  <Card title="SectionHeading" icon="heading" href="/dev/components/section-heading">
+    Three-part heading block (eyebrow, title, description) used to open each major content section.
+  </Card>
+  <Card title="RadicalizationPath" icon="arrow-right" href="/dev/components/radicalization-path">
+    Dark navy aside that renders a numbered four-stage radicalization pathway from the `radicalizationPath` data array.
+  </Card>
+  <Card title="ResourcesPanel" icon="book-open" href="/dev/components/resources-panel">
+    Full-width section combining a topic tag list and a featured external resource card, driven by `featuredResource` and `resourceSupportTopics` data.
+  </Card>
+  <Card title="ProjectBrief" icon="clipboard">
+    Sidebar card embedded inside `Hero` that shows a project snapshot header, a grid of project facts, and a list of project authors — all from `site-content.ts`.
+  </Card>
+  <Card title="SiteHeader" icon="panel-top">
+    Sticky site header with the project wordmark, a desktop navigation bar, and a togglable mobile menu. Marked `"use client"` for the menu toggle state.
+  </Card>
+  <Card title="SiteFooter" icon="panel-bottom">
+    Simple two-column footer with the project title, author credits (from `projectAuthors`), and an educational-use disclaimer.
+  </Card>
+  <Card title="Icons" icon="shapes">
+    Seven inline SVG icon components (`BookIcon`, `CompassIcon`, `ShieldIcon`, `PeopleIcon`, `WarningIcon`, `NetworkIcon`, `CheckIcon`), each accepting a `className` prop.
+  </Card>
+</CardGroup>
+
+## How components are composed in `app/page.tsx`
+
+The page imports every component and all required data arrays, then lays them out in a single `<main>` element:
+
+```tsx app/page.tsx
+import { ContentSection } from "@/components/content-section";
+import { Hero } from "@/components/hero";
+import { InfoCard } from "@/components/info-card";
+import {
+  BookIcon,
+  CheckIcon,
+  CompassIcon,
+  NetworkIcon,
+  PeopleIcon,
+  ShieldIcon,
+  WarningIcon
+} from "@/components/icons";
+import { RadicalizationPath } from "@/components/radicalization-path";
+import { ResourcesPanel } from "@/components/resources-panel";
+import { SectionHeading } from "@/components/section-heading";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import {
+  awarenessPoints,
+  communityActions,
+  preventionIdeas,
+  rootCauses,
+  studyPrinciples,
+  terrorismTypes,
+  typeComparisons
+} from "@/data/site-content";
+
+export default function Home() {
+  return (
+    <main className="min-h-screen">
+      <SiteHeader />
+
+      <div
+        id="main-content"
+        className="mx-auto max-w-7xl space-y-12 px-4 pb-16 sm:px-6 lg:space-y-14 lg:px-8 lg:pb-20"
+      >
+        <Hero />
+
+        {/* #overview — What Is Terrorism? */}
+        <ContentSection id="overview">
+          {/* SectionHeading + InfoCards for studyPrinciples */}
+        </ContentSection>
+
+        {/* #types — Types of Terrorism */}
+        <ContentSection id="types">
+          {/* SectionHeading + InfoCards for terrorismTypes + typeComparisons aside */}
+        </ContentSection>
+
+        {/* #causes — Root Causes + RadicalizationPath */}
+        <ContentSection id="causes">
+          {/* SectionHeading + InfoCards for rootCauses + RadicalizationPath */}
+          <RadicalizationPath />
+        </ContentSection>
+
+        {/* #awareness — Why Awareness Matters */}
+        <ContentSection id="awareness">
+          {/* SectionHeading + awarenessPoints cards */}
+        </ContentSection>
+
+        {/* #prevention — Prevention and Community Action */}
+        <ContentSection id="prevention">
+          {/* SectionHeading + preventionIdeas + communityActions */}
+        </ContentSection>
+
+        {/* ResourcesPanel renders its own <section id="resources"> */}
+        <ResourcesPanel />
+      </div>
+
+      <SiteFooter />
+    </main>
+  );
+}
+```
+
+<Note>
+  `ResourcesPanel` renders its own `<section id="resources">` internally, so it is placed directly inside the max-width wrapper rather than inside a `ContentSection`.
+</Note>

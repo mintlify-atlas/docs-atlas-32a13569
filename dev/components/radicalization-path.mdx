@@ -1,0 +1,68 @@
+---
+title: 'RadicalizationPath'
+description: 'Dark navy aside that visualizes a four-stage radicalization pathway as a numbered list.'
+---
+
+`RadicalizationPath` renders a self-contained dark `<aside>` with a fixed header, a short explanatory paragraph, and a numbered list of radicalization stages. It accepts no props — all content comes from the `radicalizationPath` array in `@/data/site-content`.
+
+## Import
+
+```tsx
+import { RadicalizationPath } from "@/components/radicalization-path";
+```
+
+## Usage
+
+Place `RadicalizationPath` directly in the grid layout of the root causes `ContentSection`. It is always rendered without props:
+
+```tsx app/page.tsx
+<ContentSection id="causes">
+  <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+    <div>
+      <SectionHeading
+        eyebrow="Root Causes"
+        title="No single factor explains terrorism, but several pressures can increase risk."
+        description="Researchers often examine personal, social, political, and economic conditions together. Radicalization may develop gradually, especially when multiple pressures and influences combine over time."
+      />
+
+      <div className="mt-10 grid gap-5 md:grid-cols-2">
+        {rootCauses.map((cause, index) => {
+          const Icon = causeIcons[index];
+
+          return (
+            <InfoCard
+              key={cause.title}
+              title={cause.title}
+              text={cause.text}
+              icon={<Icon className="h-6 w-6" />}
+            />
+          );
+        })}
+      </div>
+    </div>
+
+    <RadicalizationPath />
+  </div>
+</ContentSection>
+```
+
+## Data dependency
+
+`RadicalizationPath` imports and maps over `radicalizationPath` from `@/data/site-content`. Each item in the array must conform to this shape:
+
+```ts data/site-content.ts
+type PathStage = {
+  title: string; // Stage name, rendered as <h4>
+  text: string;  // Stage description, rendered below the title
+};
+
+const radicalizationPath: PathStage[] = [
+  // Four stages, displayed in order as a numbered list
+];
+```
+
+The component assigns each stage an auto-incremented step number (`index + 1`) rendered inside a rounded badge. The array order determines the displayed sequence.
+
+<Note>
+  To update the radicalization stages, edit the `radicalizationPath` array in `data/site-content.ts`. The component will reflect the changes automatically without any code modifications.
+</Note>

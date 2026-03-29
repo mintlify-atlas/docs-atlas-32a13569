@@ -1,0 +1,123 @@
+---
+title: 'InfoCard'
+description: 'Titled content card with an optional icon, eyebrow label, and navy or red accent theme.'
+---
+
+`InfoCard` renders an `<article>` element with a heading, body text, and optional decorative elements. It is the primary card pattern used across the root causes, terrorism types, and prevention sections.
+
+## Import
+
+```tsx
+import { InfoCard } from "@/components/info-card";
+```
+
+## Props
+
+<ParamField path="title" type="string" required>
+  The card heading, rendered as an `<h3>`.
+</ParamField>
+
+<ParamField path="text" type="string" required>
+  The body copy rendered below the title.
+</ParamField>
+
+<ParamField path="eyebrow" type="string">
+  A small uppercase label rendered above the title. Omit to hide.
+</ParamField>
+
+<ParamField path="icon" type="ReactNode">
+  An icon element displayed in a rounded container above the eyebrow and title. Pass one of the site's icon components (e.g. `<BookIcon className="h-6 w-6" />`). Omit to hide.
+</ParamField>
+
+<ParamField path="accent" type='"navy" | "red"' default='"navy"'>
+  Controls the card's border, background, and text color theme.
+
+  - `"navy"` — white background, navy border and heading color.
+  - `"red"` — light red tint background, red border and heading color.
+</ParamField>
+
+<ParamField path="className" type="string" default='""'>
+  Additional Tailwind classes merged onto the root `<article>` element.
+</ParamField>
+
+## Usage examples
+
+### Default navy accent (root causes section)
+
+```tsx app/page.tsx
+{rootCauses.map((cause, index) => {
+  const Icon = causeIcons[index];
+
+  return (
+    <InfoCard
+      key={cause.title}
+      title={cause.title}
+      text={cause.text}
+      icon={<Icon className="h-6 w-6" />}
+    />
+  );
+})}
+```
+
+### Eyebrow label with default accent (overview section)
+
+```tsx app/page.tsx
+{studyPrinciples.map((principle, index) => {
+  const Icon = principleIcons[index];
+
+  return (
+    <InfoCard
+      key={principle.title}
+      title={principle.title}
+      text={principle.text}
+      icon={<Icon className="h-6 w-6" />}
+      eyebrow="Study Lens"
+    />
+  );
+})}
+```
+
+### Mixed accents (terrorism types section)
+
+The types section alternates between `"navy"` and `"red"` to visually distinguish domestic from foreign terrorism:
+
+```tsx app/page.tsx
+{terrorismTypes.map((type, index) => (
+  <InfoCard
+    key={type.title}
+    title={type.title}
+    text={type.text}
+    eyebrow={type.label}
+    icon={
+      index === 0 ? (
+        <ShieldIcon className="h-6 w-6" />
+      ) : (
+        <NetworkIcon className="h-6 w-6" />
+      )
+    }
+    accent={index === 0 ? "navy" : "red"}
+  />
+))}
+```
+
+### Alternating accents (prevention section)
+
+```tsx app/page.tsx
+{preventionIdeas.map((idea, index) => {
+  const Icon = preventionIcons[index];
+
+  return (
+    <InfoCard
+      key={idea.title}
+      title={idea.title}
+      text={idea.text}
+      icon={<Icon className="h-6 w-6" />}
+      accent={index % 2 === 1 ? "red" : "navy"}
+    />
+  );
+})}
+```
+
+<Note>
+  `InfoCard` sets `h-full` on its root element so cards in a CSS grid row stretch to equal height automatically.
+</Note>

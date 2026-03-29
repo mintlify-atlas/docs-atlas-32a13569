@@ -1,0 +1,74 @@
+---
+title: 'SectionHeading'
+description: 'Three-part heading block used to introduce each major content section.'
+---
+
+`SectionHeading` renders a compact group of three elements — an eyebrow label, an `<h2>` title, and a description paragraph — constrained to `max-w-3xl` for comfortable reading line length. Use it at the top of every `ContentSection`.
+
+## Import
+
+```tsx
+import { SectionHeading } from "@/components/section-heading";
+```
+
+## Props
+
+All three props are required.
+
+<ParamField path="eyebrow" type="string" required>
+  Short uppercase label rendered above the title using the global `.eyebrow` utility class. Conveys the section topic at a glance (e.g. `"Root Causes"`, `"Types of Terrorism"`).
+</ParamField>
+
+<ParamField path="title" type="string" required>
+  The section headline, rendered as an `<h2>`. Keep it to one or two clauses — the component scales the font size responsively from `text-3xl` up to `text-[2.65rem]` on large screens.
+</ParamField>
+
+<ParamField path="description" type="string" required>
+  A one-to-two sentence summary rendered below the title using the global `.section-copy` utility class.
+</ParamField>
+
+## Usage examples
+
+### Overview section
+
+```tsx app/page.tsx
+<SectionHeading
+  eyebrow="What Is Terrorism?"
+  title="A neutral definition for academic discussion"
+  description="Terrorism is the use or threat of violence to create fear and influence political, social, or ideological goals. In academic settings, the topic should be discussed with factual context, careful language, and respect for public safety."
+/>
+```
+
+### Types of terrorism section
+
+```tsx app/page.tsx
+<SectionHeading
+  eyebrow="Types of Terrorism"
+  title="Domestic and foreign terrorism differ in scope, networks, and context."
+  description="Both forms can cause serious harm, but they are not identical. They differ in where planning occurs, how networks are connected, and what broader context shapes the threat."
+/>
+```
+
+### Root causes section
+
+```tsx app/page.tsx
+<SectionHeading
+  eyebrow="Root Causes"
+  title="No single factor explains terrorism, but several pressures can increase risk."
+  description="Researchers often examine personal, social, political, and economic conditions together. Radicalization may develop gradually, especially when multiple pressures and influences combine over time."
+/>
+```
+
+### Prevention section
+
+```tsx app/page.tsx
+<SectionHeading
+  eyebrow="Prevention and Community Action"
+  title="Prevention works best when education, trust, and shared responsibility come together."
+  description="Communities can lower risk by building trust, strengthening communication, and offering support systems before harmful ideas turn into harmful actions."
+/>
+```
+
+<Note>
+  `SectionHeading` does not accept a `className` prop. If you need layout customization around the heading block, wrap it in a `<div>` with the appropriate Tailwind classes.
+</Note>
